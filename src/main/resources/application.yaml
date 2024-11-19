@@ -1,0 +1,38 @@
+spring:
+  application:
+    name : ddd-layered
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+    schema:
+      inspection:
+        enabled: true
+  #  sql:
+  #    init:
+  #      data-locations: classpath:sql/data.sql
+  datasource:
+    username: root
+    password: 1234
+    url: jdbc:mysql://localhost:3306/ddd?useUnicode=yes&characterEncoding=UTF-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    #    show-sql: true
+    properties:
+      hibernate:
+        #        show_sql: true
+        highlight_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+#        use_sql_comments: true
+
+jwt:
+  token:
+    secret-key: asdasdasd123123sdfasdfasdfasdf1asdsdf1e3123123123
+    expire-time: 6400000000000000000
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type:
+    org.hibernate.orm.jdbc.bind: trace
