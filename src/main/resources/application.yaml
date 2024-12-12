@@ -1,13 +1,9 @@
 spring:
+  config:
+    active:
+      on-profile: local
   application:
     name : ddd-layered
-  graphql:
-    graphiql:
-      enabled: true
-      path: /graphiql
-    schema:
-      inspection:
-        enabled: true
   #  sql:
   #    init:
   #      data-locations: classpath:sql/data.sql
@@ -29,10 +25,33 @@ spring:
 
 jwt:
   token:
-    secret-key: asdasdasd123123sdfasdfasdfasdf1asdsdf1e3123123123
-    expire-time: 6400000000000000000
+    secret-key: sgjasg3123adadg3123123hdfh21ad53422dadasf5123adadg3123123hdfh21ad53425
+    access-token-expiration: 6400000000000000000
+    refresh-token-expiration: 6400000000000000000
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type:
     org.hibernate.orm.jdbc.bind: trace
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MARIADB;DATABASE_TO_UPPER=FALSE;NON_KEYWORDS=USER
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        dialect: org.hibernate.dialect.MariaDBDialect
+    database-platform: org.hibernate.dialect.MariaDBDialect
+jwt:
+  token:
+    secret-key: asbnfu1231j2308j1nqewdjnd108dejh10823hj12803h1298hnqsdjfnkasjdasdasd213123123123f123
+    access-token-expiration: 6400000000000000000
+    refresh-token-expiration: 6400000000000000000
