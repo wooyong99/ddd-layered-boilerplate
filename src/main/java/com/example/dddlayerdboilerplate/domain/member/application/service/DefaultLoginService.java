@@ -5,14 +5,11 @@ import com.example.dddlayerdboilerplate.common.exceptions.type.LoginFailExceptio
 import com.example.dddlayerdboilerplate.domain.member.application.command.LoginServiceCommand;
 import com.example.dddlayerdboilerplate.domain.member.application.mapper.MemberMapper;
 import com.example.dddlayerdboilerplate.domain.member.model.aggregate.Member;
+import com.example.dddlayerdboilerplate.domain.member.model.vo.TokenInfo;
 import com.example.dddlayerdboilerplate.domain.member.repository.IMemberRepository;
-import com.example.dddlayerdboilerplate.infra.persistence.MemberRepository;
 import com.example.dddlayerdboilerplate.infra.persistence.entity.MemberEntity;
 import com.example.dddlayerdboilerplate.infra.security.jwt.TokenProvider;
-import com.fasterxml.classmate.MemberResolver;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 public class DefaultLoginService implements LoginService {
@@ -31,11 +28,12 @@ public class DefaultLoginService implements LoginService {
 
     @Transactional
     @Override
-    public String login(LoginServiceCommand command) {
+    public Member login(LoginServiceCommand command) {
         // 1. 존재하는 회원인지 확인 (이메일로 확인) -> 엔티티 객체 조회
         // - 엔티티 조회
         // - 도메인 모델로 변환
-        MemberEntity entity = memberRepository.findByEmail(command.getEmail());
+        MemberEntity entity = memberRepository.findByEmail(command.getEmail())
+                .orElseThrow(() -> new LoginFailException(ErrorCode.FAILURE_LOGIN));
         Member domain = memberMapper.toDomain(entity);
 
         // 2. 비밀번호가 올바른지 확인
@@ -47,14 +45,15 @@ public class DefaultLoginService implements LoginService {
         String refreshToken = tokenProvider.createRefreshToken(String.valueOf(domain.getId()));
 
         // 4. 리프레쉬 토큰 저장 및 도메인 모델 엔티티 동기환
-        domain.saveRefreshToken(refreshToken);
+        domain.setTokenInfo(new TokenInfo(accessToken, refreshToken));
         MemberEntity updateEntity = memberMapper.toEntity(domain);
         entity.merge(updateEntity);
 
         // 5. 저장
         Long save = memberRepository.save(entity);
 
-        // 6. 액세스 토큰 반환
-        return accessToken;
+        // 6. 반환
+        domain = memberMapper.toDomain(entity);
+        return domain;
     }
 }

@@ -27,6 +27,8 @@ public enum ErrorCode {
 
     // Join Error
     DUPLICATE_USER(400001, HttpStatus.BAD_REQUEST, "이미 존재하는 사용자입니다."),
+    INVALID_EMAIL_FORMAT(400001, HttpStatus.BAD_REQUEST, "이메일 형식이 올바르지 않습니다."),
+    INVALID_PASSWORD_FORMAT(400001, HttpStatus.BAD_REQUEST, "비밀번호 형식이 올바르지 않습니다."),
 
     // Access Denied Error
     ACCESS_DENIED(40300, HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),

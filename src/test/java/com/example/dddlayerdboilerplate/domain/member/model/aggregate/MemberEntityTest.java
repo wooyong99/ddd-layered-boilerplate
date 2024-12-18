@@ -35,6 +35,7 @@ class MemberEntityTest {
                 "테스트비밀번호",
                 "테스트자기소개",
                 "테스트주소",
+                "RefreshToken",
                 Status.ACTIVE,
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -51,6 +52,7 @@ class MemberEntityTest {
                 null,
                 "테스트자기소개",
                 "테스트주소",
+                "RefreshToken",
                 Status.ACTIVE,
                 LocalDateTime.now(),
                 LocalDateTime.now()
@@ -69,6 +71,7 @@ class MemberEntityTest {
                 "테스트비밀번호",
                 "테스트자기소개",
                 "테스트주소",
+                "RefreshToken",
                 null,
                 LocalDateTime.now(),
                 LocalDateTime.now()

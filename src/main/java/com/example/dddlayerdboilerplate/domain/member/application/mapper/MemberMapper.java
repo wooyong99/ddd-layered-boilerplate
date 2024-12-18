@@ -1,9 +1,12 @@
 package com.example.dddlayerdboilerplate.domain.member.application.mapper;
 
 import com.example.dddlayerdboilerplate.domain.member.model.aggregate.Member;
+import com.example.dddlayerdboilerplate.domain.member.model.vo.TokenInfo;
 import com.example.dddlayerdboilerplate.domain.member.ui.response.JoinResponse;
 import com.example.dddlayerdboilerplate.infra.persistence.entity.MemberEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component
 public class MemberMapper {
@@ -15,7 +18,9 @@ public class MemberMapper {
                 domain.getPassword(),
                 domain.getDescription(),
                 domain.getAddress(),
-                domain.getRefreshToken(),
+                Optional.ofNullable(domain.getTokenInfo())
+                        .map(TokenInfo::getRefreshToken)
+                        .orElse(null),
                 domain.getStatus(),
                 domain.getCreatedAt(),
                 domain.getUpdatedAt()
@@ -34,7 +39,7 @@ public class MemberMapper {
                 entity.getPassword(),
                 entity.getDescription(),
                 entity.getAddress(),
-                entity.getRefreshToken(),
+                new TokenInfo(null,entity.getRefreshToken()),
                 entity.getStatus(),
                 entity.getCreatedAt(),
                 entity.getUpdatedAt()

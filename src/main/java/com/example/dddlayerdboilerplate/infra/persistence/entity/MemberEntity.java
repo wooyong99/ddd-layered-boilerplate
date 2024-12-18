@@ -3,6 +3,7 @@ package com.example.dddlayerdboilerplate.infra.persistence.entity;
 import com.example.dddlayerdboilerplate.common.constants.Constants;
 import com.example.dddlayerdboilerplate.common.dto.SelfValidating;
 import com.example.dddlayerdboilerplate.domain.member.model.vo.Status;
+import com.example.dddlayerdboilerplate.domain.member.model.vo.TokenInfo;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

@@ -12,10 +12,12 @@ public class CustomDetails implements UserDetails {
 
     private Member member;
     private String accessToken;
+    private String refreshToken;
 
-    public CustomDetails(Member member, String accessToken) {
+    public CustomDetails(Member member, String accessToken, String refreshToken) {
         this.member = member;
         this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
     }
 
     // 계정 권한 목록 반환

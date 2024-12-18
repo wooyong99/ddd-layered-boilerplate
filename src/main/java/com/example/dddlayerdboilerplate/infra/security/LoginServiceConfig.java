@@ -13,19 +13,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 public class LoginServiceConfig {
 
     @Bean
-    public LoginService sringSecurityLoginService(IMemberRepository memberRepository, MemberMapper memberMapper, AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
-        return new SpringSecurityLoginService(
-                memberRepository,
-                memberMapper,
-                authenticationManager,
-                tokenProvider);
+    public LoginService sringSecurityLoginService(AuthenticationManager authenticationManager) {
+        return new SpringSecurityLoginService(authenticationManager);
     }
 
     public LoginService defaultLoginService(IMemberRepository memberRepository, MemberMapper memberMapper, AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
-        return new SpringSecurityLoginService(
-                memberRepository,
-                memberMapper,
-                authenticationManager,
-                tokenProvider);
+        return new SpringSecurityLoginService(authenticationManager);
     }
 }

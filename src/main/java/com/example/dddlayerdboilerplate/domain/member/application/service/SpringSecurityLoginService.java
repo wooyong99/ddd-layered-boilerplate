@@ -13,26 +13,22 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class SpringSecurityLoginService implements LoginService {
 
-    private final IMemberRepository memberRepository;
-    private final MemberMapper memberMapper;
-    private final TokenProvider tokenProvider;
     private final AuthenticationManager authenticationManager;
 
-    public SpringSecurityLoginService(IMemberRepository memberRepository, MemberMapper memberMapper, AuthenticationManager authenticationManager, TokenProvider tokenProvider) {
-        this.memberRepository = memberRepository;
-        this.memberMapper = memberMapper;
+    public SpringSecurityLoginService(AuthenticationManager authenticationManager) {
+
         this.authenticationManager = authenticationManager;
-        this.tokenProvider = tokenProvider;
     }
 
     @Override
     @Transactional
-    public String login(LoginServiceCommand command) {
-        System.out.println("스프링 시큐리티");
+    public Member login(LoginServiceCommand command) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(command.getEmail(), command.getPassword())
         );
+
         CustomDetails principal = (CustomDetails) authenticate.getPrincipal();
-        return principal.getAccessToken();
+
+        return principal.getMember();
     }
 }

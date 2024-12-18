@@ -34,7 +34,7 @@ public abstract class SelfValidating<T> {
                     .map(violation -> String.format("%s : %s", violation.getPropertyPath(), violation.getMessage()))
                     .reduce((msg1, msg2) -> msg1 + "; " +msg2)
                     .orElse("Validation error occurred");
-            throw new IllegalArgumentException(errorMessage);
+            throw new ConstraintViolationException(violations);
         }
     }
 

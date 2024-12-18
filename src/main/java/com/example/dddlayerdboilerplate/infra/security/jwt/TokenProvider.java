@@ -32,18 +32,45 @@ public class TokenProvider {
     public String createRefreshToken(String subject) {
         return createToken(subject, properties.getRefreshTokenExpiration());
     }
-
-    private String createToken(String subject, long millis) {
-        Claims claims = Jwts.claims().setSubject(subject);
+    private Claims createClaims(String subject, long millis){
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + millis + 1000L);
 
+        return Jwts.claims()
+                .setSubject(subject)
+                .setIssuedAt(now)
+                .setExpiration(expireDate);
+    }
+
+    private String createToken(String subject, long millis) {
+        Claims claims = createClaims(subject, millis);
+
         return Jwts.builder()
                 .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(expireDate)
-                .setSubject(subject)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            getClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+    public Claims getClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    public String getSubject(String token) {
+        Claims claims = getClaims(token);
+        return claims.getSubject();
     }
 }

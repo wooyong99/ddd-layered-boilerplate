@@ -98,6 +98,13 @@ public class GlobalExceptionHandler {
         return ResponseDto.fail(e);
     }
 
+    // SelfValidating 관련 예왼
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseDto<?> handleValidationException(BaseException e) {
+        log.error("ExceptionHandler catch IllegalArgumentException : {}", e.getMessage());
+        return ResponseDto.fail(e);
+    }
+
     // 서버, DB 예외
     @ExceptionHandler(value = {Exception.class})
     public ResponseDto<?> handleException(Exception e) {
